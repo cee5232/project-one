@@ -3,6 +3,7 @@ import babel from '@rollup/plugin-babel';
 import { rollupPluginHTML as html } from '@web/rollup-plugin-html';
 import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
 import esbuild from 'rollup-plugin-esbuild';
+import image from '@rollup/plugin-image';
 
 export default {
   input: 'index.html',
@@ -22,14 +23,16 @@ export default {
     }),
     /** Resolve bare module imports */
     nodeResolve(),
+    /** Support importing images like .jpg and .png */
+    image(),
     /** Minify JS, compile JS to a lower language target */
     esbuild({
       minify: true,
       target: ['chrome64', 'firefox67', 'safari11.1'],
     }),
-    /** Bundle assets references via import.meta.url */
+    /** Bundle assets referenced via import.meta.url */
     importMetaAssets(),
-    /** Minify html and css tagged template literals */
+    /** Minify HTML and CSS tagged template literals */
     babel({
       plugins: [
         [
